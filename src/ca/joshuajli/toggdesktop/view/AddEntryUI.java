@@ -5,6 +5,7 @@ import ch.simas.jtoggl.Project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +17,38 @@ public class AddEntryUI extends JDialog {
     private final List<Project> projects = favEntries.getProjects();
 
     private JComboBox<String> projectComboBox;
+    private JTextField nameTextField = new JTextField();
+    private JButton saveButton = new JButton("Add Entry");
 
     AddEntryUI() {
         setUpComboBox();
+        setUpDialogBox();
+        setUpAddButton();
+
+
         configWindow();
+    }
+
+    private void setUpDialogBox() {
+        add(nameTextField);
+    }
+
+    private void setUpAddButton() {
+        saveButton.addActionListener(e -> saveEntry());
+        add(saveButton);
+    }
+
+    private void saveEntry() {
+        String entryName = nameTextField.getText();
+        Long projectID = projects.get(projectComboBox.getSelectedIndex()).getId();
+
+        favEntries.addEntry(entryName, projectID);
     }
 
     private void configWindow() {
         setTitle("Add a new Entry");
+
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         setMinimumSize(MIN_SIZE);
         setMaximumSize(MAX_SIZE);
@@ -44,4 +69,6 @@ public class AddEntryUI extends JDialog {
         projectComboBox = new JComboBox<>(projectArray);
         add(projectComboBox);
     }
+
+
 }
