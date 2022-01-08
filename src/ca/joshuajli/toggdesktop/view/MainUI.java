@@ -2,6 +2,7 @@ package ca.joshuajli.toggdesktop.view;
 
 import ca.joshuajli.toggdesktop.controller.FavController;
 import ca.joshuajli.toggdesktop.controller.PlainTextSaver;
+import ch.simas.jtoggl.TimeEntry;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,12 +17,41 @@ public class MainUI implements WindowFocusListener {
     private final FavController favEntries = FavController.getInstance();
 
     private final JFrame mainFrame = new JFrame("Togg Desktop");
+    private final JPanel shortcutsFrame = new JPanel();
 
     public MainUI() {
 
         getProjects();
-        setUpWindow();
+        setUpShortcuts();
+        populateShortcuts();
         setUpAddButton();
+
+        setUpWindow();
+    }
+
+    private void populateShortcuts() {
+        for (TimeEntry entry : favEntries.getEntries()) {
+            shortcutsFrame.add(generateCard(entry));
+        }
+    }
+
+    private JPanel generateCard(TimeEntry entry) {
+        JPanel entryFrame = new JPanel();
+        JTextPane nameTextPane = new JTextPane();
+        nameTextPane.setText(entry.getDescription());
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener(e -> favEntries.getToggl().startTimeEntry(entry));
+
+        entryFrame.setLayout(new FlowLayout());
+        entryFrame.add(nameTextPane);
+        entryFrame.add(startButton);
+
+        return entryFrame;
+    }
+
+    private void setUpShortcuts() {
+        shortcutsFrame.setLayout(new FlowLayout());
+        mainFrame.add(shortcutsFrame);
     }
 
     private void getProjects() {
@@ -36,6 +66,7 @@ public class MainUI implements WindowFocusListener {
 
     private void setUpWindow() {
         mainFrame.setMinimumSize(MAIN_FRAME_MIN_SIZE);
+        mainFrame.setLayout(new BoxLayout(mainFrame.getContentPane(), BoxLayout.Y_AXIS));
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

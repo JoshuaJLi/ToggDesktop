@@ -85,11 +85,20 @@ public class FavController {
 
         timeEntry.setDescription(desc);
         timeEntry.setPid(projId);
+        timeEntry.setId(400L);
 
         favEntries.add(timeEntry);
     }
 
     public List<Project> getProjects() {
         return projects;
+    }
+
+    public ArrayList<TimeEntry> getEntries() {
+        return favEntries;
+    }
+
+    public JToggl getToggl() {
+        return toggl;
     }
 }
