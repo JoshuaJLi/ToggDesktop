@@ -1,9 +1,8 @@
-package ca.joshuajli.togglrdesktop;
+package ca.joshuajli.toggdesktop;
 
 import ch.simas.jtoggl.JToggl;
 import ch.simas.jtoggl.TimeEntry;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -33,7 +32,7 @@ public class Test {
 
         TimeEntry timeEntry = new TimeEntry();
         timeEntry.setDescription("Does this work?");
-        timeEntry.setCreated_with("TogglrTest");
+        timeEntry.setCreated_with("ToggTest");
         timeEntry.setPid(178208313L);
 
         toggl.startTimeEntry(timeEntry);
